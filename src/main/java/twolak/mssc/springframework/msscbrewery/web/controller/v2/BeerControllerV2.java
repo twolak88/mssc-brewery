@@ -1,4 +1,4 @@
-package twolak.mssc.springframework.msscbrewery.web.controller;
+package twolak.mssc.springframework.msscbrewery.web.controller.v2;
 
 import java.net.InetAddress;
 import java.util.UUID;
@@ -16,50 +16,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import twolak.mssc.springframework.msscbrewery.services.BeerService;
-import twolak.mssc.springframework.msscbrewery.web.model.BeerDto;
+import twolak.mssc.springframework.msscbrewery.services.v2.BeerServiceV2;
+import twolak.mssc.springframework.msscbrewery.web.model.v2.BeerDtoV2;
 
 /**
  *
  * @author twolak
  */
-@Deprecated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(BeerController.BASE_URL)
-public class BeerController {
-
-    public static final String BASE_URL = "/api/v1/beer";
-    private static final String BEER_ID = "beerId";
+@RequestMapping(BeerControllerV2.BASE_URL)
+public class BeerControllerV2 {
+    public static final String BASE_URL = "/api/v2/beer";
     
-    private final BeerService beerService;
+    private static final String BEER_ID = "beerId";
+
+    private final BeerServiceV2 beerService;
     @Value("${server.port}")
     private int port;
-    
+
     @GetMapping("{" + BEER_ID + "}")
-    public ResponseEntity<BeerDto> getBeer(@PathVariable(BEER_ID) UUID beerId) {
+    public ResponseEntity<BeerDtoV2> getBeer(@PathVariable(BEER_ID) UUID beerId) {
         return new ResponseEntity<>(this.beerService.getBeerById(beerId), HttpStatus.OK);
     }
-    
+
     @PostMapping
-    public ResponseEntity createNewBeer(@RequestBody BeerDto beerDto) {
-        
-        BeerDto savedBeerDto = this.beerService.saveNewBeer(beerDto);
-        
+    public ResponseEntity createNewBeer(@RequestBody BeerDtoV2 beerDto) {
+
+        BeerDtoV2 savedBeerDto = this.beerService.saveNewBeer(beerDto);
+
         HttpHeaders httpHeaders = new HttpHeaders();
         String location = "http://" + InetAddress.getLoopbackAddress().getHostAddress() + ":" + port + BASE_URL + "/" + savedBeerDto.getId();
         httpHeaders.add(HttpHeaders.LOCATION, location);
-        
-        return new ResponseEntity(httpHeaders, HttpStatus.CREATED); 
+
+        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
-    
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("{" + BEER_ID + "}")
-    public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @RequestBody BeerDto beerDto) {
+    public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @RequestBody BeerDtoV2 beerDto) {
         this.beerService.updateBeer(beerId, beerDto);
     }
-    
-    @ResponseStatus(HttpStatus.NO_CONTENT )
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{" + BEER_ID + "}")
     public void deleteBeer(@PathVariable(BEER_ID) UUID beerId) {
         this.beerService.deleteBeerById(beerId);
