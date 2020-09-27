@@ -172,3 +172,5 @@ Desktop.ini
 hs_err_pid*
 release.properties
 .attach_pid*
+/nb-configuration.xml
+/licenseheader.txt
