@@ -1,6 +1,7 @@
 package twolak.mssc.springframework.msscbrewery.services.impl;
 
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import twolak.mssc.springframework.msscbrewery.services.BeerService;
 import twolak.mssc.springframework.msscbrewery.web.model.BeerDto;
@@ -9,6 +10,7 @@ import twolak.mssc.springframework.msscbrewery.web.model.BeerDto;
  *
  * @author twolak
  */
+@Slf4j
 @Service
 public class BeerServiceImpl implements BeerService {
 
@@ -32,6 +34,11 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public void updateBeer(UUID beerId, BeerDto beerDto) {
-        //Todo
+        log.debug("Updating a beer");
+    }
+
+    @Override
+    public void deleteBeerById(UUID beerId) {
+        log.debug("Deleting a beer");
     }
 }

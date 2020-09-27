@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +56,11 @@ public class BeerController {
     @PutMapping("{" + BEER_ID + "}")
     public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @RequestBody BeerDto beerDto) {
         this.beerService.updateBeer(beerId, beerDto);
+    }
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT )
+    @DeleteMapping("{" + BEER_ID + "}")
+    public void deleteBeer(@PathVariable(BEER_ID) UUID beerId) {
+        this.beerService.deleteBeerById(beerId);
     }
 }
