@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import twolak.mssc.springframework.msscbrewery.services.BeerService;
 import twolak.mssc.springframework.msscbrewery.web.model.BeerDto;
@@ -47,5 +49,11 @@ public class BeerController {
         httpHeaders.add(HttpHeaders.LOCATION, location);
         
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED); 
+    }
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("{" + BEER_ID + "}")
+    public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @RequestBody BeerDto beerDto) {
+        this.beerService.updateBeer(beerId, beerDto);
     }
 }
