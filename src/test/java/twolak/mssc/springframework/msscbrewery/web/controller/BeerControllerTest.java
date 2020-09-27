@@ -81,9 +81,9 @@ public class BeerControllerTest {
 
     @Test
     public void testUpdateBeer() throws Exception {
-        String beerDtoJson = objectMapper.writeValueAsString(validBeerDto);
+        String beerDtoJson = this.objectMapper.writeValueAsString(this.validBeerDto);
         
-        this.mockMvc.perform(MockMvcRequestBuilders.put(BeerController.BASE_URL + "/" + validBeerDto.getId().toString())
+        this.mockMvc.perform(MockMvcRequestBuilders.put(BeerController.BASE_URL + "/" + this.validBeerDto.getId().toString())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
@@ -91,4 +91,10 @@ public class BeerControllerTest {
         BDDMockito.then(this.beerService).should(Mockito.times(1)).updateBeer(ArgumentMatchers.any(UUID.class), ArgumentMatchers.any(BeerDto.class));
     }
     
+    @Test
+    public void testDeleteBeer() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.delete(BeerController.BASE_URL + "/" + this.validBeerDto.getId().toString()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        BDDMockito.then(this.beerService).should(Mockito.times(1)).deleteBeerById(ArgumentMatchers.any(UUID.class));
+    }
 }
