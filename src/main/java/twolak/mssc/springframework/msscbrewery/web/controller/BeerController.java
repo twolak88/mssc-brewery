@@ -22,11 +22,10 @@ public class BeerController {
 
     public static final String BASE_URL = "/api/v1/beer";
     private static final String BEER_ID = "beerId";
-    private static final String BEER_ID_PATHVAR = "{" + BEER_ID + "}";
     
     private final BeerService beerService;
     
-    @GetMapping(BEER_ID_PATHVAR)
+    @GetMapping("{" + BEER_ID + "}")
     public ResponseEntity<BeerDto> getBeer(@PathVariable(BEER_ID) UUID beerId) {
         return new ResponseEntity<>(this.beerService.getBeerById(beerId), HttpStatus.OK);
     }
