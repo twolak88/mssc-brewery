@@ -8,14 +8,18 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>twolak.mssc.springframework</groupId>
+    <groupId>twolak.springframework</groupId>
     <artifactId>mssc-brewery</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mssc-brewery</name>
     <description>TW Beer Works - Brewery Microservice</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencies>
