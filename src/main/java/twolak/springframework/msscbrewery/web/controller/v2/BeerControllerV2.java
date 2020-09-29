@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 //import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,9 +48,9 @@ public class BeerControllerV2 {
     @PostMapping
     public ResponseEntity createNewBeer(@Valid /*@NotNull*/ @RequestBody BeerDtoV2 beerDto) {
 
-        BeerDtoV2 savedBeerDto = this.beerService.saveNewBeer(beerDto);
+        val savedBeerDto = this.beerService.saveNewBeer(beerDto);
 
-        HttpHeaders httpHeaders = new HttpHeaders();
+        val httpHeaders = new HttpHeaders();
         String location = "http://" + InetAddress.getLoopbackAddress().getHostAddress() + ":" + port + BASE_URL + "/" + savedBeerDto.getId();
         httpHeaders.add(HttpHeaders.LOCATION, location);
 
