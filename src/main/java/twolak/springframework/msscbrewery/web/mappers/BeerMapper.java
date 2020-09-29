@@ -2,7 +2,7 @@ package twolak.springframework.msscbrewery.web.mappers;
 
 import org.mapstruct.Mapper;
 import twolak.springframework.msscbrewery.domain.Beer;
-import twolak.springframework.msscbrewery.web.model.BeerDto;
+import twolak.springframework.msscbrewery.web.model.v2.BeerDtoV2;
 
 /**
  *
@@ -10,7 +10,7 @@ import twolak.springframework.msscbrewery.web.model.BeerDto;
  */
 @Mapper
 public interface BeerMapper {
-    BeerDto beerToBeerDto(Beer beer);
+    BeerDtoV2 beerToBeerDto(Beer beer);
     
-    Beer beerToBeerDto(BeerDto beerDto);
+    Beer beerToBeerDto(BeerDtoV2 beerDto);
 }
