@@ -2,6 +2,7 @@ package twolak.springframework.msscbrewery.web.controller;
 
 import java.net.InetAddress;
 import java.util.UUID;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +24,7 @@ import twolak.springframework.msscbrewery.web.model.BeerDto;
  *
  * @author twolak
  */
-@Deprecated
+//@Deprecated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(BeerController.BASE_URL)
@@ -42,7 +43,7 @@ public class BeerController {
     }
     
     @PostMapping
-    public ResponseEntity createNewBeer(@RequestBody BeerDto beerDto) {
+    public ResponseEntity createNewBeer(@Valid @RequestBody BeerDto beerDto) {
         
         BeerDto savedBeerDto = this.beerService.saveNewBeer(beerDto);
         
@@ -55,11 +56,11 @@ public class BeerController {
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("{" + BEER_ID + "}")
-    public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @RequestBody BeerDto beerDto) {
+    public void updateBeer(@PathVariable(BEER_ID) UUID beerId, @Valid @RequestBody BeerDto beerDto) {
         this.beerService.updateBeer(beerId, beerDto);
     }
     
-    @ResponseStatus(HttpStatus.NO_CONTENT )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{" + BEER_ID + "}")
     public void deleteBeer(@PathVariable(BEER_ID) UUID beerId) {
         this.beerService.deleteBeerById(beerId);

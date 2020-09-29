@@ -82,9 +82,11 @@ public class BeerControllerTest {
 
     @Test
     public void testUpdateBeer() throws Exception {
-        String beerDtoJson = this.objectMapper.writeValueAsString(this.validBeerDto);
+        BeerDto beerDto = validBeerDto;
+        beerDto.setId(null);
+        String beerDtoJson = this.objectMapper.writeValueAsString(beerDto);
         
-        this.mockMvc.perform(MockMvcRequestBuilders.put(BeerController.BASE_URL + "/" + this.validBeerDto.getId().toString())
+        this.mockMvc.perform(MockMvcRequestBuilders.put(BeerController.BASE_URL + "/" + UUID.randomUUID().toString())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDtoJson))
