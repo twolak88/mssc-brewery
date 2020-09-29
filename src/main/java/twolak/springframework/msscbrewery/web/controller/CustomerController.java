@@ -1,13 +1,18 @@
 package twolak.springframework.msscbrewery.web.controller;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +47,7 @@ public class CustomerController {
     }
     
     @PostMapping
-    public ResponseEntity createNewCustomer(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity createNewCustomer(@Valid @RequestBody CustomerDto customerDto) {
         CustomerDto savedCustomerDto = this.customerService.createNewCustomer(customerDto);
         
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -54,7 +59,7 @@ public class CustomerController {
     
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("{" + CUSTOMER_ID + "}")
-    public void updateCustomer(@PathVariable(CUSTOMER_ID) UUID customerId, @RequestBody CustomerDto customerDto){
+    public void updateCustomer(@PathVariable(CUSTOMER_ID) UUID customerId, @Valid @RequestBody CustomerDto customerDto){
         this.customerService.updateCustomer(customerId, customerDto);
     }
     
@@ -62,5 +67,14 @@ public class CustomerController {
     @DeleteMapping("{" + CUSTOMER_ID + "}")
     public void deleteCustomer(@PathVariable(CUSTOMER_ID) UUID customerId) {
         this.customerService.deleteCustomerById(customerId);
+    }
+    
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException constraintViolationException) {
+        List<String> errors = new ArrayList<>(constraintViolationException.getConstraintViolations().size());
+        constraintViolationException.getConstraintViolations().forEach(constraintViolation -> {
+            errors.add(constraintViolation.getPropertyPath() + ":" + constraintViolation.getMessage());
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
