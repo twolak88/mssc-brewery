@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+//import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,7 @@ import twolak.springframework.msscbrewery.web.model.v2.BeerDtoV2;
  *
  * @author twolak
  */
+//@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(BeerControllerV2.BASE_URL)
@@ -41,12 +44,12 @@ public class BeerControllerV2 {
     private int port;
 
     @GetMapping("{" + BEER_ID + "}")
-    public ResponseEntity<BeerDtoV2> getBeer(@PathVariable(BEER_ID) UUID beerId) {
+    public ResponseEntity<BeerDtoV2> getBeer(/*@NotNull*/ @PathVariable(BEER_ID) UUID beerId) {
         return new ResponseEntity<>(this.beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity createNewBeer(@Valid @RequestBody BeerDtoV2 beerDto) {
+    public ResponseEntity createNewBeer(@Valid /*@NotNull*/ @RequestBody BeerDtoV2 beerDto) {
 
         BeerDtoV2 savedBeerDto = this.beerService.saveNewBeer(beerDto);
 
