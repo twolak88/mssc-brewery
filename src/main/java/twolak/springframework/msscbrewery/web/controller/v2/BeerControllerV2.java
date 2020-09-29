@@ -1,10 +1,7 @@
 package twolak.springframework.msscbrewery.web.controller.v2;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 //import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,14 +66,5 @@ public class BeerControllerV2 {
     @DeleteMapping("{" + BEER_ID + "}")
     public void deleteBeer(@PathVariable(BEER_ID) UUID beerId) {
         this.beerService.deleteBeerById(beerId);
-    }
-    
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List> validationErrorHandler(ConstraintViolationException constraintViolationException) {
-        List<String> errors = new ArrayList<>(constraintViolationException.getConstraintViolations().size());
-        constraintViolationException.getConstraintViolations().forEach(constraintViolation -> {
-            errors.add(constraintViolation.getPropertyPath() + ":" + constraintViolation.getMessage());
-        });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
