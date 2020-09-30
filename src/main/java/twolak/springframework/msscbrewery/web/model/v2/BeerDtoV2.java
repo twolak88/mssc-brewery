@@ -1,5 +1,6 @@
 package twolak.springframework.msscbrewery.web.model.v2;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
@@ -30,4 +31,10 @@ public class BeerDtoV2 {
     
     @Positive
     private Long upc;
+    
+    @Null
+    private OffsetDateTime createdDate;
+
+    @Null
+    private OffsetDateTime lastUpdatedDate;
 }
